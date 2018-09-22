@@ -1,6 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <SchemaComparison>
   <Version>10</Version>
+  <SourceModelProvider>
+    <ProjectBasedModelProvider>
+      <ProjectGuid>{f9c4689b-cdb4-4c64-9636-2dda5ad72b9b}</ProjectGuid>
+      <Name>EasyOR.Database</Name>
+    </ProjectBasedModelProvider>
+  </SourceModelProvider>
   <SchemaCompareSettingsService>
     <SchemaCompareSettingsService>
       <PropertyElementName>
@@ -291,7 +297,7 @@
       </PropertyElementName>
       <PropertyElementName>
         <Name>TargetConnectionString</Name>
-        <Value></Value>
+        <Value>Integrated Security=True;Pooling=False;Connect Timeout=30</Value>
       </PropertyElementName>
       <PropertyElementName>
         <Name>TreatVerificationErrorsAsWarnings</Name>
@@ -888,8 +894,4 @@
     <ZoomLevel>100</ZoomLevel>
     <Filter>Equals_Objects,Not_Supported_Deploy</Filter>
   </SchemaCompareViewSettings>
-  <ExcludedSourceElements>
-  </ExcludedSourceElements>
-  <ExcludedTargetElements>
-  </ExcludedTargetElements>
 </SchemaComparison>

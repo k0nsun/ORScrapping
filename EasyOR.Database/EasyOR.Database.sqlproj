@@ -62,10 +62,18 @@
     <Folder Include="dbo\Tables" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="dbo\Tables\temp.sql" />
+    <Build Include="dbo\Tables\PLAYER.sql" />
+    <Build Include="dbo\Tables\PLANET.sql" />
+    <Build Include="dbo\Tables\QUEST.sql" />
+    <Build Include="dbo\Tables\REWARDTYPE.sql" />
+    <Build Include="dbo\Tables\PROFIT.sql" />
+    <Build Include="dbo\Tables\PROFITTYPE.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Schema Compare\Sunquan Proj - DEV.scmp" />
     <None Include="Schema Compare\Sunquan Proj - PUBLISH.scmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="EasyOR.Database.refactorlog" />
   </ItemGroup>
 </Project>

@@ -1,0 +1,23 @@
+﻿CREATE TABLE [dbo].[QUEST]
+(
+	[QuestId] INT IDENTITY (1, 1) NOT NULL,
+	[Name] NVARCHAR(200) NOT NULL, 
+    [RewardTypeId] INT NOT NULL, 
+    [ProfitId] INT NOT NULL, 
+    [ProfitTypeId] INT NOT NULL, 
+    [ValueProfil] SMALLINT NULL, 
+    [DurationProfil] SMALLINT NULL, 
+    [HasSoldier] BIT NULL DEFAULT 0, 
+    [HasSpaceship] BIT NULL DEFAULT 0, 
+    [HasExploration] BIT NULL DEFAULT 0, 
+    [HasDefense] BIT NULL DEFAULT 0, 
+    [Comment] NVARCHAR(1000) NULL, 
+    [Visible] BIT NOT NULL DEFAULT 0,
+	[ProfilOldDatabase] NVARCHAR(1000) NULL, 
+	[PlayerId] INT NOT NULL,
+    CONSTRAINT [PK_QUEST] PRIMARY KEY CLUSTERED ([QuestId] ASC),
+	CONSTRAINT [FK_QUEST_REWARDTYPE] FOREIGN KEY ([RewardTypeId]) REFERENCES [dbo].[REWARDTYPE] ([RewardTypeId]),
+	CONSTRAINT [FK_QUEST_PROFIT] FOREIGN KEY ([ProfitId]) REFERENCES [dbo].[PROFIT] ([ProfitId]),
+	CONSTRAINT [FK_QUEST_PROFITTYPE] FOREIGN KEY ([ProfitTypeId]) REFERENCES [dbo].[PROFITTYPE] ([ProfitTypeId]),
+	CONSTRAINT [FK_QUEST_PLAYER] FOREIGN KEY ([PlayerId]) REFERENCES [dbo].[PLAYER] ([PlayerId]),
+)

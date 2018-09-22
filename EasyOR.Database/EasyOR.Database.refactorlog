@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Operations Version="1.0" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+  <Operation Name="Rename Refactor" Key="532874a0-6c9b-4879-9ed5-9d7d690ae7f8" ChangeDateTime="09/22/2018 15:45:14">
+    <Property Name="ElementName" Value="[dbo].[QuestDetail].[Saldat]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[QuestDetail]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Soldier" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="0e102b16-1c1e-467d-a548-891f09d835e6" ChangeDateTime="09/22/2018 15:46:07">
+    <Property Name="ElementName" Value="[dbo].[QuestDetail].[Soldier]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[QuestDetail]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="SoldierDetail" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="a29746dc-d1d6-4b21-bb80-a3e7013782f0" ChangeDateTime="09/22/2018 16:00:03">
+    <Property Name="ElementName" Value="[dbo].[Quest].[Profit]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Quest]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ProfitID" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="6ab854bc-ac2f-4a46-a012-f1932349c90a" ChangeDateTime="09/22/2018 16:04:14">
+    <Property Name="ElementName" Value="[dbo].[Quest].[Profit]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Quest]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ProfitTypeID" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="0c8d23d6-997d-4dc7-b96f-5708b9c2ba47" ChangeDateTime="09/22/2018 16:04:18">
+    <Property Name="ElementName" Value="[dbo].[Quest].[RewardID]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Quest]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ProfitID" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="7be8488f-67a4-49a0-9af5-63e962158a65" ChangeDateTime="09/22/2018 16:04:26">
+    <Property Name="ElementName" Value="[dbo].[Quest].[ProfitID]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Quest]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="RewardId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="39d1202d-81b4-4f5e-a403-564afcffe609" ChangeDateTime="09/22/2018 16:04:28">
+    <Property Name="ElementName" Value="[dbo].[Quest].[ProfitID]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Quest]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ProfitId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="75d58520-866d-4124-9ee3-34dda8666030" ChangeDateTime="09/22/2018 16:04:32">
+    <Property Name="ElementName" Value="[dbo].[Quest].[ProfitTypeID]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Quest]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ProfitTypeId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="983e10ff-22df-48b3-b7af-ac641083b65a" ChangeDateTime="09/22/2018 16:07:34">
+    <Property Name="ElementName" Value="[dbo].[Quest].[IsSoldier]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Quest]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ContainSoldier" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="6730e4aa-bc16-4071-a8d2-9da4fa62804d" ChangeDateTime="09/22/2018 16:07:45">
+    <Property Name="ElementName" Value="[dbo].[Quest].[IsSpace]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Quest]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ContainSpaceship" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="422c14e9-f701-415e-a359-e20ee5c076ba" ChangeDateTime="09/22/2018 16:09:28">
+    <Property Name="ElementName" Value="[dbo].[Quest].[ContainDefense]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Quest]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="HasDefense" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="ca4879aa-6a62-43c4-9f8f-8387b235ebff" ChangeDateTime="09/22/2018 16:09:33">
+    <Property Name="ElementName" Value="[dbo].[Quest].[ContainExploration]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Quest]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="HasExploration" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="dc791fb7-0207-4b44-b88e-e6ddf09b3b84" ChangeDateTime="09/22/2018 16:09:37">
+    <Property Name="ElementName" Value="[dbo].[Quest].[ContainSpaceship]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Quest]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="HasSpaceship" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="59e8361d-b6f5-4bcb-a1cc-25823cd00382" ChangeDateTime="09/22/2018 16:09:40">
+    <Property Name="ElementName" Value="[dbo].[Quest].[ContainSoldier]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Quest]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="HasSoldier" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="e7dddbbe-1f50-40ee-b64a-64ba1a2e75ff" ChangeDateTime="09/22/2018 16:44:15">
+    <Property Name="ElementName" Value="[dbo].[PLANET].[Planet]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[PLANET]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Place" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="f04000c8-25da-4248-9c90-fe9dab1ad374" ChangeDateTime="09/22/2018 17:02:28">
+    <Property Name="ElementName" Value="[dbo].[PLAYER].[ISVacation]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[PLAYER]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="IsVacation" />
+  </Operation>
+</Operations>
