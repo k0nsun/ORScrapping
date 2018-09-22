@@ -112,4 +112,18 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="IsVacation" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="ac879156-9107-4a02-91f5-0f83012de774" ChangeDateTime="09/22/2018 17:44:39">
+    <Property Name="ElementName" Value="[dbo].[PLANET].[Date_Creation]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[PLANET]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="DateCreation" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="fd0b30bf-0b29-444f-a2b1-8c819aeb43f5" ChangeDateTime="09/22/2018 17:49:57">
+    <Property Name="ElementName" Value="[dbo].[QUEST].[ValueProfil]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[QUEST]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ValueProfit" />
+  </Operation>
 </Operations>

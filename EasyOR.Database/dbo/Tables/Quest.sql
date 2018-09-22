@@ -5,7 +5,7 @@
     [RewardTypeId] INT NOT NULL, 
     [ProfitId] INT NOT NULL, 
     [ProfitTypeId] INT NOT NULL, 
-    [ValueProfil] SMALLINT NULL, 
+    [ValueProfit] SMALLINT NULL, 
     [DurationProfil] SMALLINT NULL, 
     [HasSoldier] BIT NULL DEFAULT 0, 
     [HasSpaceship] BIT NULL DEFAULT 0, 
