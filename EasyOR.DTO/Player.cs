@@ -4,8 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EasyOR.DataAccess.SqlServer
-{
+namespace EasyOR.DTO
     public class Player
     {
         public int PlayerId { get; set; }

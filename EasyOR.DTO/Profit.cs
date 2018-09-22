@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EasyOR.DataAccess.SqlServer
+namespace EasyOR.DTO
 {
-    public class ProfitType
+    public class Profit
     {
-        public int ProfitTypeId { get; set; }
+        public int ProfitId { get; set; }
         public string Name { get; set; }
     }
 }

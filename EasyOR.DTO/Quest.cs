@@ -1,4 +1,4 @@
-﻿namespace EasyOR.DataAccess.SqlServer
+﻿namespace EasyOR.DTO
 {
     public class Quest
     {

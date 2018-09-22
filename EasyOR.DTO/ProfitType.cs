@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace EasyOR.DTO
 {
-    public class Class1
+    public class ProfitType
     {
+        public int ProfitTypeId { get; set; }
+        public string Name { get; set; }
     }
 }

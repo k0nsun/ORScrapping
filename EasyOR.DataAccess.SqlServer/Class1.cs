@@ -6,9 +6,7 @@ using System.Threading.Tasks;
 
 namespace EasyOR.DataAccess.SqlServer
 {
-    public class Profit
+    class Class1
     {
-        public int ProfitId { get; set; }
-        public string Name { get; set; }
     }
 }

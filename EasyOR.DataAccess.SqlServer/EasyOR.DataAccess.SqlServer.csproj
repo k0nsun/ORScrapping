@@ -44,12 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Planet.cs" />
-    <Compile Include="Player.cs" />
-    <Compile Include="Quest.cs" />
-    <Compile Include="RewardtType.cs" />
-    <Compile Include="ProfitType.cs" />
-    <Compile Include="Profit.cs" />
+    <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
