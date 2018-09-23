@@ -60,6 +60,7 @@
     <Folder Include="dbo" />
     <Folder Include="Schema Compare" />
     <Folder Include="dbo\Tables" />
+    <Folder Include="Scripts" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\PLAYER.sql" />
@@ -68,10 +69,13 @@
     <Build Include="dbo\Tables\REWARDTYPE.sql" />
     <Build Include="dbo\Tables\PROFIT.sql" />
     <Build Include="dbo\Tables\PROFITTYPE.sql" />
+    <None Include="Scripts\03_RewardType.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Schema Compare\Sunquan Proj - DEV.scmp" />
     <None Include="Schema Compare\Sunquan Proj - PUBLISH.scmp" />
+    <None Include="Scripts\01_Profit.sql" />
+    <None Include="Scripts\02_ProfitType.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="EasyOR.Database.refactorlog" />

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace EasyOR.DTO
+{ 
     public class Player
     {
         public int PlayerId { get; set; }

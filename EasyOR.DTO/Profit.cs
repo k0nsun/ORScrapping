@@ -9,6 +9,6 @@ namespace EasyOR.DTO
     public class Profit
     {
         public int ProfitId { get; set; }
-        public string Name { get; set; }
+        public string Libelle { get; set; }
     }
 }
