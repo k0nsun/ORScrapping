@@ -76,6 +76,7 @@
     <None Include="Schema Compare\Sunquan Proj - PUBLISH.scmp" />
     <None Include="Scripts\01_Profit.sql" />
     <None Include="Scripts\02_ProfitType.sql" />
+    <None Include="Scripts\___ClearDatabase___.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="EasyOR.Database.refactorlog" />

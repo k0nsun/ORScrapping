@@ -6,15 +6,13 @@ using System.Data.SqlClient;
 
 namespace EasyOR.DataAccess.SqlServer
 {
-    public class Quest
+    public class QuestAction
     {
 
         private IDbConnection _db = new SqlConnection(ConfigurationManager.ConnectionStrings["TestDapper"].ConnectionString);
-        public List<Quest> GetAllQuest()
+        public List<QuestAction> GetAllQuest()
         {
-           return _db.Query<Quest>(@"Select q.* FROM Quest q").AsList();
-        }
-
-  
+           return _db.Query<QuestAction>(@"Select q.* FROM Quest q").AsList();
+        }  
     }
 }
