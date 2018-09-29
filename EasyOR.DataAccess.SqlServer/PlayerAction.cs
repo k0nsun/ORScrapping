@@ -1,13 +1,10 @@
 ﻿using Dapper;
 using EasyOR.DTO;
-using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EasyOR.DataAccess.SqlServer
 {
@@ -25,6 +22,32 @@ namespace EasyOR.DataAccess.SqlServer
             string sql = @"INSERT INTO [dbo].[PLAYER] ([Name],[IsAFK],[IsVacation] ,[InternalIdOR]) VALUES (@Name, @IsAFK, @IsVacation, @InternalIdOR)";
             return _db.Execute(sql, player);
         }
+        public int UpdatePlayer(Player player)
+        {
+            string sql = "UPDATE [dbo].[PLAYER] SET [Name] = @Name, [IsAFK] = @IsAFK, [IsVacation] = @IsVacation, [IsQuestPlayer] = @IsQuestPlayer WHERE PlayerId = @PlayerId";
+            return _db.Execute(sql, player);
+        }
 
+
+        public IEnumerable<Player> GetPlayerWithoutName()
+        {
+            var lookup = new Dictionary<int, Player>();
+            string sql = @"Select pl.PlayerId, pl.Name,pl.IsAFK,pl.IsVacation,pl.InternalIdOR,pl.IsQuestPlayer," +
+                        @"p.PlanetId, p.Name,p.Galaxy,p.System,p.Position,p.PlayerId " +
+                        @"from PLAYER pl INNER JOIN PLANET p on p.PlayerId = pl.PlayerId WHERE pl.NAME = '' OR pl.NAME is NULL";
+            return _db.Query<Player, Planet, Player>(sql, (pl, p) =>
+           {
+               if (!lookup.TryGetValue(pl.PlayerId, out Player player))
+               {
+                   lookup.Add(pl.PlayerId, player = pl);
+               }
+               if (player.Planets == null)
+               {
+                   player.Planets = new List<Planet>();
+               }
+               player.Planets.Add(p); /* Add locations to course */
+               return player;
+           }, null, null, true, "PlanetId");
+        }
     }
 }

@@ -29,5 +29,14 @@ namespace EasyOR.DataAccess.SqlServer
             string sql = @"INSERT INTO [dbo].[PLANET]([Galaxy],[System],[Position],[PlayerId], [Name]) VALUES (@Galaxy, @System, @Position, @PlayerId, @Name)";
             return _db.Execute(sql, planet);
         }
+
+        public IEnumerable<Planet> SearchByNameQuest(string Name)
+        {
+            string sql = @"SELECT p.* from PLANET p" +
+                        @" INNER JOIN Player pl on pl.PlayerID = p .PlayerID" +
+                        @" LEFT JOIN QUEST q on q.PlayerId = p.PlayerID " +
+                        @" WHERE LOWER(p.Name) = LOWER(@Name) AND pl.IsQuestPlayer = 1";
+            return _db.Query<Planet>(sql, new { Name = Name }).AsEnumerable();
+        }
     }
 }

@@ -5,5 +5,6 @@
 	[IsAFK] BIT NOT NULL DEFAULT 0, 
     [IsVacation] BIT NOT NULL DEFAULT 0, 
     [InternalIdOR] INT NULL, 
+    [IsQuestPlayer] BIT NULL, 
     CONSTRAINT [PK_PLAYER] PRIMARY KEY CLUSTERED ([PlayerId] ASC),
 )

@@ -13,6 +13,7 @@ namespace EasyOR.DTO
         public bool IsAFK { get; set; }
         public bool IsVacation { get; set; }
         public int InternalIdOR { get; set; }
+        public bool? IsQuestPlayer { get; set; }
         public IList<Planet> Planets { get; set; }
     }
 }
