@@ -18,10 +18,15 @@ namespace EasyOR.DataAccess.SqlServer
 
         public int AddQuest(Quest quest)
         {
-            string sql = @"INSERT INTO [dbo].[QUEST] ([Name],[RewardTypeId],[ProfitId] ,[ProfitTypeId],[ValueProfit],[DurationProfil],[HasSoldier],[HasSpaceship],[HasExploration],[HasDefense],[Comment],[Visible],[ProfilOldDatabase],[PlayerId]) " +
-                        @"VALUES (@Name,@RewardTypeId,@ProfitId,@ProfitTypeId,@ProfitTypeId,@DurationProfil,@HasSoldier,@HasSpaceship,@HasExploration,@HasDefense,@Comment,@Visible,@ProfilOldDatabase,@PlayerId)";
-
+            string sql = @"INSERT INTO [dbo].[QUEST] ([Name],[RewardTypeId],[ProfitId] ,[ProfitTypeId],[ValueProfit],[DurationProfil],[HasSoldier],[HasSpaceship],[HasExploration],[HasDefense],[Comment],[Visible],[ProfilOldDatabase],[PlayerId],[IsCheckName]) " +
+                        @"VALUES (@Name,@RewardTypeId,@ProfitId,@ProfitTypeId,@ValueProfit,@DurationProfil,@HasSoldier,@HasSpaceship,@HasExploration,@HasDefense,@Comment,@Visible,@ProfilOldDatabase,@PlayerId,@IsCheckName)";
             return _db.Execute(sql, quest);
+        }
+
+        public IEnumerable<Quest> GetQuestByName(string name)
+        {
+            string sql = "SELECT * FROM [dbo].[QUEST] WHERE [Name] = @Name";
+            return _db.Query<Quest>(sql, new { Name = name });
         }
     }
 }

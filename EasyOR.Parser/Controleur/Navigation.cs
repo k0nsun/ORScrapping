@@ -14,15 +14,14 @@ namespace EasyOR.Parser.Controleur
         public bool charge = false;
         private const int limitTimeCharge = 300;
 
-        public const string capteurInterstellaire = @"http://universphoenix.origins-return.fr/galaxie.php";
 
-        public bool changePosition(WebBrowser webbrowser, int galaxy, int system)
+        public bool InvokeForm(string url, WebBrowser webbrowser, string nameMethod, object[] paramMethod)
         {
-            if (Init(webbrowser, capteurInterstellaire))
+            if (Init(webbrowser, url))
             {
                 limitnavigateTime();
-                HtmlDocument myDoc = (HtmlDocument)webbrowser.Document;
-                myDoc.InvokeScript("galaxi_envoi", new object[] { galaxy, system });
+                HtmlDocument element = (HtmlDocument)webbrowser.Document;
+                element.InvokeScript(nameMethod, paramMethod);
                 return true;
             }
             return false;
@@ -39,7 +38,7 @@ namespace EasyOR.Parser.Controleur
         }
 
 
-        public bool navigationPage(WebBrowser webbrowser, string url)
+        public bool NavigationPage(WebBrowser webbrowser, string url)
         {
             limitnavigateTime();
             if (Init(webbrowser, url))
@@ -49,7 +48,7 @@ namespace EasyOR.Parser.Controleur
             return false;
         }
 
-        public bool reloadPage(WebBrowser webbrowser)
+        public bool ReloadPage(WebBrowser webbrowser)
         {
             limitnavigateTime();
             webbrowser.Navigate(webbrowser.Url.OriginalString);

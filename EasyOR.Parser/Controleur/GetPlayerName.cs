@@ -1,11 +1,9 @@
 ﻿using EasyOR.DataAccess.SqlServer;
 using EasyOR.DTO;
 using EasyOR.Parser.View;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace EasyOR.Parser.Controleur
@@ -13,17 +11,23 @@ namespace EasyOR.Parser.Controleur
     public class GetPlayerName
     {
         private const string urlImpulseur = "http://universphoenix.origins-return.fr/impulseur.php";
-
-
+        private const string urlMessageSpy = "http://universphoenix.origins-return.fr/messagerie.php?cat=Espio";
         private Navigation nav = new Navigation();
         public List<Player> ListPlayer = new List<Player>();
+
+        //Impulseur
         private PlayerAction playerMapp = new PlayerAction();
         private PlanetAction planeteMapp = new PlanetAction();
-        private bool StateImpulseur = false;
-        private bool StateSpy = false;
-        private bool initSpy = false;
         private Player lastPlayer;
+
+        //Spy
+        private bool InitSpy = false;
         private Spy spy;
+
+        //Message
+        private bool InitMessage = false;
+
+
         public GetPlayerName()
         {
             // on recupere tout les joueurs n'ayant pas de nom dans la base de données
@@ -35,30 +39,45 @@ namespace EasyOR.Parser.Controleur
             ListPlayer = new PlayerAction().GetPlayerWithoutName().ToList();
         }
 
-        private Main MainForm;
         public void GetName(Main mainForm)
         {
-            
-            MainForm = mainForm;
-            MainForm.action = "getNamePlayer";
-            StateImpulseur = false;
-            if (!StateImpulseur)
+            switch (mainForm.action)
             {
-                GetNameByImpulseur();
+                case Action.updatePlayerNameStep1:
+                    GetNameByImpulseur(mainForm);
+                    break;
+                case Action.updatePlayerNameStep2:
+                    GetNameBySpyinit();
+                    GetNameBySpy(mainForm);
+                    break;
+                case Action.updatePlayerNameStep3:
+                    GetNameByMessageInit();
+                    GetNameByMessage(mainForm);
+                    break;
+                default:
+                    break;
             }
-            else
-            {
-                getNameBySpyinit();
-                getNameBySpy();
-            }
+            //MainForm = mainForm;
+            //MainForm.action = Action.updatePlayerNameStep1;
+
+            //StateImpulseur = false;
+            //if (!StateImpulseur)
+            //{
+            //    GetNameByImpulseur(mainForm);
+            //}
+            //else
+            //{
+            //    GetNameBySpyinit();
+            //    GetNameBySpy();
+            //}
         }
 
-        private void GetNameByImpulseur()
+        private void GetNameByImpulseur(Main mainForm)
         {
             // on essaye une simulation de lancement d'attaque
-            if (nav.navigationPage(MainForm.webBrowserMain, urlImpulseur))
+            if (nav.NavigationPage(mainForm.webBrowserMain, urlImpulseur))
             {
-                HtmlDocument myDoc = (HtmlDocument)MainForm.webBrowserMain.Document;
+                HtmlDocument myDoc = mainForm.webBrowserMain.Document;
                 if (!myDoc.Body.InnerText.Contains("Rapport Intermédiaire"))
                 {
                     if (myDoc.GetElementById("galaxi").GetAttribute("value") == "")
@@ -74,9 +93,8 @@ namespace EasyOR.Parser.Controleur
                             {
                                 if (element.OuterHtml.Contains("attaquer1.gif"))
                                 {
-                                    if (nav.navigationPage(MainForm.webBrowserMain, urlImpulseur))
+                                    if (nav.NavigationPage(mainForm.webBrowserMain, urlImpulseur))
                                         element.InvokeMember("click");
-
                                 }
                             }
                         }
@@ -93,8 +111,8 @@ namespace EasyOR.Parser.Controleur
                                 Player player = ListPlayer[0];
                                 player.IsQuestPlayer = true;
                                 playerMapp.UpdatePlayer(player);
-                                getNameComplete();
-                                nav.reloadPage(MainForm.webBrowserMain);
+                                GetNameByImpulseurComplete(mainForm);
+                                nav.ReloadPage(mainForm.webBrowserMain);
                             }
                             else if (myDoc.Body.InnerText.Contains("Vous avez") || myDoc.Body.InnerText.Contains("vacances") || myDoc.Body.InnerText.Contains("pacte") || myDoc.Body.InnerText.Contains("faible") || myDoc.Body.InnerText.Contains("bloqué") || myDoc.Body.InnerText.Contains("de votre alliance.") || myDoc.Body.InnerText.Contains("Vous ne pouvez pas attaquer une planète de votre empire."))
                             {
@@ -105,8 +123,8 @@ namespace EasyOR.Parser.Controleur
                                     player.IsAFK = false;
                                     playerMapp.UpdatePlayer(player);
                                 }
-                                getNameComplete();
-                                nav.reloadPage(MainForm.webBrowserMain);
+                                GetNameByImpulseurComplete(mainForm);
+                                nav.ReloadPage(mainForm.webBrowserMain);
                             }
                             else
                             {
@@ -116,7 +134,7 @@ namespace EasyOR.Parser.Controleur
                                     {
                                         if (element.OuterHtml.Contains("attaquer1.gif"))
                                         {
-                                            if (nav.navigationPage(MainForm.webBrowserMain, urlImpulseur))
+                                            if (nav.NavigationPage(mainForm.webBrowserMain, urlImpulseur))
                                                 element.InvokeMember("click");
                                             // MainForm.action = "";
                                         }
@@ -124,9 +142,6 @@ namespace EasyOR.Parser.Controleur
                                 }
                             }
                         }
-
-                        // si ça ne passe pas on récupère les informations suivantes: joueur quetes
-
                     }
                 }
                 else
@@ -148,38 +163,38 @@ namespace EasyOR.Parser.Controleur
                                     Player player = ListPlayer[0];
                                     player.Name = result;
                                     playerMapp.UpdatePlayer(player);
-                                    
-                                    getNameComplete();
-                                    nav.reloadPage(MainForm.webBrowserMain);
+
+                                    GetNameByImpulseurComplete(mainForm);
+                                    nav.ReloadPage(mainForm.webBrowserMain);
                                 }
                             }
                         }
                     }
                 }
             }
-
-            // si ça passe on récupère le nom du joueur et on le supprime de la liste
-
         }
 
-        private void getNameComplete()
+        private void GetNameByImpulseurComplete(Main mainForm)
         {
             ListPlayer.RemoveAt(0);
-
             if (ListPlayer.Count == 0)
             {
-                StateImpulseur = true;
+                mainForm.action = Action.updatePlayerNameStep2;
                 GetAllPlayerWithoutName();
             }
         }
 
-
-        private void getNameBySpyinit()
+        private void GetNameBySpyinit()
         {
-            if (!StateSpy)
+            if (!InitSpy)
             {
-                List<Planet> listPlanete = new List<Planet>();
+                // Clear memomry
+                playerMapp = null;
+                planeteMapp = null;
+                lastPlayer = null;
 
+                // Get planet wihtout name and quest !
+                List<Planet> listPlanete = new List<Planet>();
                 foreach (Player player in ListPlayer)
                 {
                     if (player.Planets.Count != 0)
@@ -187,16 +202,53 @@ namespace EasyOR.Parser.Controleur
                         listPlanete.Add(player.Planets[0]);
                     }
                 }
-
                 spy = new Spy(listPlanete);
-                StateSpy = true;
+                InitSpy = true;
             }
         }
-        private void getNameBySpy()
+
+        private void GetNameBySpy(Main mainForm)
         {
             // on essaye d'espionner les gens qui n'on pas de nom
+            spy.SpyPlayer(mainForm);
+        }
 
-            spy.SpyPlayer(MainForm);
+        public void GetNameByMessageInit()
+        {
+            if (!InitMessage)
+            {
+                spy = null;
+                InitSpy = false;
+            }
+        }
+        public void GetNameByMessage(Main mainForm)
+        {
+            if (nav.NavigationPage(mainForm.webBrowserMain, urlMessageSpy))
+            {
+                HtmlDocument htmlDoc = mainForm.webBrowserMain.Document;
+                HtmlElementCollection listTable = htmlDoc.GetElementsByTagName("table");
+
+                // drop start and end
+                int nbMessage = listTable[2].Children[0].Children.Count - 2;
+
+                //Start at 1
+                for (int i = 1; i <= nbMessage; i++)
+                {
+                    // Get player by planet
+                    Planet planet = null;
+
+
+                    var text = listTable[2].Children[0].Children[i].InnerText;
+                    var namePlayer =  Regex.Match(text, @"\(([^)]*)\)").Groups[1].Value;
+                    var positionPlayer = Regex.Match(text, @"\[([^)]*)\]").Groups[1].Value;
+                    var positionSeparate = positionPlayer.Split(':');
+
+                    //update player
+
+                }
+
+                // supprimer les messages
+            }
         }
     }
 }

@@ -14,8 +14,9 @@ namespace EasyOR.Parser.View
 {
     public partial class Main : Form
     {
-        public string action = string.Empty;
-        HtmlDocument myDoc2;
+        public Action action = 0;
+
+        //public string action = string.Empty;
 
        // public SearchCDRCapteur searchCDR;
         public SearchPlayerCapteur searchPlayer;
@@ -42,7 +43,7 @@ namespace EasyOR.Parser.View
         {
             if ((deconnexion == webBrowserMain.Url.OriginalString) || (webBrowserMain.IsOffline))
             {
-                this.action = "";
+                this.action = Action.UNKNOW;
             }
 
             if (apercu == webBrowserMain.Url.OriginalString)
@@ -50,43 +51,64 @@ namespace EasyOR.Parser.View
                 // verification du login du joueur
                 // absorbtion des données du joueurs
             }
-            HtmlDocument myDoc = (HtmlDocument)webBrowserMain.Document;
-            myDoc2 = myDoc;
 
             switch (action)
             {
-                case "searchCDR":
-                    //if (searchCDR != null)
-                    //    searchCDR.search(this);
-                    //if (searchCDR.State)
-                    //{
-                    //    action = string.Empty;
-                    //    MessageBox.Show("Recherche de CDR terminée");
-                    //    panelWebBrowser.Visible = false;
-                    //    panelWebBrowser.Controls.Clear();
-                    //    searchCDRUserView.Dispose();
-                    //}
-                    //break;
-
-                case "Findjoueur":
-                    if (searchPlayer != null)
-                        searchPlayer.search(this.webBrowserMain, this);
+                case Action.UNKNOW:
                     break;
-                case "spy":
-                    //if (spyPlayer != null)
-                    //    spyPlayer.SpyPlayer(this);
-                    //if (spyPlayer.State)
-                    //{
-                    //    action = string.Empty;
-                    //}
-                    //break;
-                case "getNamePlayer":
-                    if (getPlayerName != null)
-                        getPlayerName.GetName(this);
+                case Action.updateQuest:
+                        new QuestUpdate().GetAllQuest(this);
                     break;
+                case Action.updatePlayerIdUnique:
+                    searchPlayer.Search(this);
+                    break;
+                case Action.updatePlayerNameStep1:
+                case Action.updatePlayerNameStep2:
+                case Action.updatePlayerNameStep3:
+                    new GetPlayerName().GetName(this);
+                    break;
+                        
                 default:
                     break;
             }
+
+            //HtmlDocument myDoc = (HtmlDocument)webBrowserMain.Document;
+            //myDoc2 = myDoc;
+
+            //switch (action)
+            //{
+            //    case "searchCDR":
+            //        //if (searchCDR != null)
+            //        //    searchCDR.search(this);
+            //        //if (searchCDR.State)
+            //        //{
+            //        //    action = string.Empty;
+            //        //    MessageBox.Show("Recherche de CDR terminée");
+            //        //    panelWebBrowser.Visible = false;
+            //        //    panelWebBrowser.Controls.Clear();
+            //        //    searchCDRUserView.Dispose();
+            //        //}
+            //        //break;
+
+            //    case "Findjoueur":
+            //        if (searchPlayer != null)
+            //            searchPlayer.search(this.webBrowserMain, this);
+            //        break;
+            //    case "spy":
+            //        //if (spyPlayer != null)
+            //        //    spyPlayer.SpyPlayer(this);
+            //        //if (spyPlayer.State)
+            //        //{
+            //        //    action = string.Empty;
+            //        //}
+            //        //break;
+            //    case "getNamePlayer":
+            //        if (getPlayerName != null)
+            //            getPlayerName.GetName(this);
+            //        break;
+            //    default:
+            //        break;
+            //}
         }
         GetPlayerName getPlayerName;
         private void button1_Click(object sender, EventArgs e)
@@ -98,28 +120,22 @@ namespace EasyOR.Parser.View
             }          
         }
 
-        private void rechercherLesJoueursToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            action = "Findjoueur";
-            searchPlayer = new SearchPlayerCapteur(1, 1, 50);
-            searchPlayer.search(this.webBrowserMain, this);
-        }
 
         private void rechercheCDRToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (action != "searchCDR")
-            {
-                //SearchCDRInit formSearchCDRInit = new SearchCDRInit(this);
-                //if (formSearchCDRInit.ShowDialog() == DialogResult.OK)
-                //{
+            //if (action != "searchCDR")
+            //{
+            //    //SearchCDRInit formSearchCDRInit = new SearchCDRInit(this);
+            //    //if (formSearchCDRInit.ShowDialog() == DialogResult.OK)
+            //    //{
 
-                //    searchCDRUserView = new UserControlSearchCDR(this);
-                //    panelWebBrowser.Controls.Add(searchCDRUserView);
-                //    panelWebBrowser.Show();
-                //    cDRBindingSource.Clear();
-                //    action = "searchCDR";
-                //}
-            }
+            //    //    searchCDRUserView = new UserControlSearchCDR(this);
+            //    //    panelWebBrowser.Controls.Add(searchCDRUserView);
+            //    //    panelWebBrowser.Show();
+            //    //    cDRBindingSource.Clear();
+            //    //    action = "searchCDR";
+            //    //}
+            //}
         }
 
         private void chercherUnJoueurToolStripMenuItem_Click(object sender, EventArgs e)
@@ -129,6 +145,25 @@ namespace EasyOR.Parser.View
             //    form = new SearchPlayer(this);
             //form.Show();
             //form.Focus();
+        }
+
+        private void MAJQuestToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            action = Action.updateQuest;
+            new QuestUpdate().GetAllQuest(this);
+        }
+
+        private void GetAllPlayerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            action = Action.updatePlayerNameStep1;
+            searchPlayer = new SearchPlayerCapteur(1, 1, 50);
+            searchPlayer.Search(this);            
+        }
+
+        private void miseÀJourDesNomsDesJoueursToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            action = Action.updatePlayerNameStep3;
+            new GetPlayerName().GetName(this);
         }
     }
 }

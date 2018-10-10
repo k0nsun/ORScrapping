@@ -11,7 +11,7 @@ namespace EasyOR.Parser.Controleur
     /// By JOHNATAN GEORGES
     /// Licence MIT
     /// </summary>
-    public class generalFunction
+    public class GeneralFunction
     {
 
         /// <summary>

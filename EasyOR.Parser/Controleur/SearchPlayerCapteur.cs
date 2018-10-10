@@ -1,47 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using EasyOR.DataAccess.SqlServer;
+﻿using EasyOR.DataAccess.SqlServer;
 using EasyOR.Parser.Controleur.ObjectData;
 using EasyOR.Parser.View;
+using System;
+using System.Collections.Generic;
+using System.Windows.Forms;
 
 namespace EasyOR.Parser.Controleur
 {
     public class SearchPlayerCapteur : Navigation
     {
         #region membres
-        public int GalaxyStart;
-        public int SystemStart;
-
-
-        public int GalaxyMax;
-        public List<Player> playerFind;
-
-        public int m_galaxyNavigation;
+        private int GalaxyMax;
+        private int m_galaxyNavigation;
         private int GalaxyNavigation
         {
+            set
+            {
+                m_galaxyNavigation = value;
+            }
             get
             {
                 return m_galaxyNavigation;
             }
         }
         private int m_systemNavigation;
-        public int SystemNavigation
+        private int SystemNavigation
         {
-            get
-            {
-                return m_systemNavigation;
-            }
-        }
-        private int SystemNavigationADD
-        {
-            get
-            {
-                return m_systemNavigation;
-            }
             set
             {
                 if (value > 100)
@@ -54,54 +38,49 @@ namespace EasyOR.Parser.Controleur
                     m_systemNavigation = value;
                 }
             }
+            get
+            {
+                return m_systemNavigation;
+            }
         }
-
-        public bool State;
+        private bool ProcessInit = false;
+        private const string capteurInterstellaireURL = @"http://universphoenix.origins-return.fr/galaxie.php";
         #endregion
-
 
         public SearchPlayerCapteur(int galaxyStart, int systemStart, int galaxyMax)
         {
-            this.GalaxyStart = galaxyStart;
-            this.SystemStart = systemStart;
-            this.m_galaxyNavigation = galaxyStart;
-            this.SystemNavigationADD = systemStart;
-            this.GalaxyMax = galaxyMax;
-            playerFind = new List<Player>();
+            SystemNavigation = systemStart;
+            GalaxyNavigation = galaxyStart;
+            GalaxyMax = galaxyMax;
+        }  
+
+        public bool Initialisation(Main mainForm)
+        {
+            if (new Navigation().InvokeForm(capteurInterstellaireURL, mainForm.webBrowserMain, "galaxi_envoi", new object[] { GalaxyNavigation, SystemNavigation }))
+            {
+                ProcessInit = true;
+            }
+            return false;
         }
 
-        private bool init = false;
-
-        public void search(WebBrowser webbrowser, Main mainForm)
+        public void Search(Main mainForm)
         {
             // on regarde initialise la page au debut
-            if (!init)
+            if (!ProcessInit)
             {
-                if (base.changePosition(webbrowser, this.GalaxyNavigation, this.SystemNavigation))
-                    init = true;
+                mainForm.action = Action.updatePlayerIdUnique;
+                Initialisation(mainForm);
                 return;
             }
 
-            HtmlDocument myDoc = (HtmlDocument)webbrowser.Document;
-            if (!charge)
+            if (GalaxyNavigation <= GalaxyMax)
             {
-                charge = true;
-                return;
-            }
-            else
-            {
-                charge = false;
-            }
-
-            if (this.GalaxyNavigation <= this.GalaxyMax)
-            {
-                this.State = false;
                 // on est actuellement au coordonnées suivantes
-                string galaxieActual = myDoc.GetElementById("galaxi2").GetAttribute("value");
-                string systemActual = myDoc.GetElementById("system2").GetAttribute("value");
+                string galaxieActual = mainForm.webBrowserMain.Document.GetElementById("galaxi2").GetAttribute("value");
+                string systemActual = mainForm.webBrowserMain.Document.GetElementById("system2").GetAttribute("value");
 
                 // on recupere l'ID parent le plus proche des planetes
-                HtmlElement pageSystemSolaire = myDoc.GetElementById("galaxiform");
+                HtmlElement pageSystemSolaire = mainForm.webBrowserMain.Document.GetElementById("galaxiform");
                 foreach (HtmlElement elementTemp in pageSystemSolaire.Children)
                 {
                     // on recupere le conteneur de l'ensemble des planetes
@@ -127,8 +106,8 @@ namespace EasyOR.Parser.Controleur
                                         if (!string.IsNullOrEmpty(planeteName))
                                         {
                                             planete = new Planete();
-                                            planete.Galaxy = this.GalaxyNavigation;
-                                            planete.System = this.SystemNavigation;
+                                            planete.Galaxy = GalaxyNavigation;
+                                            planete.System = SystemNavigation;
                                             planete.Position = position;
                                             planete.Name = planeteName;
                                         }
@@ -142,7 +121,7 @@ namespace EasyOR.Parser.Controleur
                                             if (elementClick.Contains("messagerie_ecrire"))
                                             {
 
-                                                List<long> allInt = generalFunction.getNumberFromText(elementClick);
+                                                List<long> allInt = GeneralFunction.getNumberFromText(elementClick);
 
                                                 int UniquePUniqueNumberContact = Convert.ToInt32(allInt[0]);
                                                 player = new Player();
@@ -176,15 +155,14 @@ namespace EasyOR.Parser.Controleur
                         }
                     }
                 }
-                SystemNavigationADD++;
-                base.changePosition(webbrowser, this.GalaxyNavigation, this.SystemNavigation);
+                SystemNavigation++;
+                new Navigation().InvokeForm(capteurInterstellaireURL, mainForm.webBrowserMain, "galaxi_envoi", new object[] { GalaxyNavigation, SystemNavigation });
             }
             else
             {
-                this.State = true;
+                mainForm.action = Action.UNKNOW;
+                mainForm.searchPlayer = null;
             }
         }
-
-
     }
 }
