@@ -12,6 +12,7 @@ namespace EasyOR.Parser.Controleur
     {
         private const string urlImpulseur = "http://universphoenix.origins-return.fr/impulseur.php";
         private const string urlMessageSpy = "http://universphoenix.origins-return.fr/messagerie.php?cat=Espio";
+        private const string urlBase = "http://universphoenix.origins-return.fr/";
         private Navigation nav = new Navigation();
         public List<Player> ListPlayer = new List<Player>();
 
@@ -26,6 +27,7 @@ namespace EasyOR.Parser.Controleur
 
         //Message
         private bool InitMessage = false;
+        private bool messageRead = false;
 
 
         public GetPlayerName()
@@ -57,19 +59,6 @@ namespace EasyOR.Parser.Controleur
                 default:
                     break;
             }
-            //MainForm = mainForm;
-            //MainForm.action = Action.updatePlayerNameStep1;
-
-            //StateImpulseur = false;
-            //if (!StateImpulseur)
-            //{
-            //    GetNameByImpulseur(mainForm);
-            //}
-            //else
-            //{
-            //    GetNameBySpyinit();
-            //    GetNameBySpy();
-            //}
         }
 
         private void GetNameByImpulseur(Main mainForm)
@@ -225,29 +214,59 @@ namespace EasyOR.Parser.Controleur
         {
             if (nav.NavigationPage(mainForm.webBrowserMain, urlMessageSpy))
             {
-                HtmlDocument htmlDoc = mainForm.webBrowserMain.Document;
-                HtmlElementCollection listTable = htmlDoc.GetElementsByTagName("table");
-
-                // drop start and end
-                int nbMessage = listTable[2].Children[0].Children.Count - 2;
-
-                //Start at 1
-                for (int i = 1; i <= nbMessage; i++)
+                if (!messageRead)
                 {
-                    // Get player by planet
-                    Planet planet = null;
+                    HtmlDocument htmlDoc = mainForm.webBrowserMain.Document;
+                    HtmlElementCollection listTable = htmlDoc.GetElementsByTagName("table");
+
+                    // drop start and end
+                    int nbMessage = listTable[2].Children[0].Children.Count - 2;
+
+                    Dictionary<string, object> messageIds = new Dictionary<string, object>();
+                    //Start at 1 (0 is header)
+                    if (nbMessage == 1)
+                    {
+                        mainForm.action = Action.UNKNOW;
+                        nav.NavigationPage(mainForm.webBrowserMain, urlMessageSpy);
+                        return;
+                    }
+
+                    for (int i = 1; i <= nbMessage; i++)
+                    {
+                        // Get player by planet
+                        Planet planet = null;
 
 
-                    var text = listTable[2].Children[0].Children[i].InnerText;
-                    var namePlayer =  Regex.Match(text, @"\(([^)]*)\)").Groups[1].Value;
-                    var positionPlayer = Regex.Match(text, @"\[([^)]*)\]").Groups[1].Value;
-                    var positionSeparate = positionPlayer.Split(':');
+                        var text = listTable[2].Children[0].Children[i].InnerText;
+                        var namePlayer = Regex.Match(text, @"\(([^)]*)\)").Groups[1].Value;
+                        var positionPlayer = Regex.Match(text, @"\[([^)]*)\]").Groups[1].Value;
+                        var positionSeparate = positionPlayer.Split(':');
 
-                    //update player
+                        //update player
 
+
+                        listTable[2].Children[0].Children[i].Children[0].Children[0].SetAttribute("checked", "checked");
+                        var messageId = listTable[2].Children[0].Children[i].Children[0].Children[0].GetAttribute("name");
+                        messageIds.Add(messageId, "on");
+                    }
+
+                    // Click "Voir les messages
+                    var listElement = htmlDoc.GetElementsByTagName("input");
+                    foreach (HtmlElement item in listElement)
+                    {
+                        bool test = item.OuterHtml.Contains("value=Lire");
+                        if (test)
+                        {                           
+                            item.InvokeMember("click");
+                            messageRead = true;
+                        }
+                    }
                 }
-
-                // supprimer les messages
+                else
+                {
+                    messageRead = false;
+                    nav.NavigationPage(mainForm.webBrowserMain, urlBase + "messagerie_delester.php?cat=Espio");
+                }
             }
         }
     }

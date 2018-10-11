@@ -65,7 +65,7 @@ namespace EasyOR.Parser.View
                 case Action.updatePlayerNameStep1:
                 case Action.updatePlayerNameStep2:
                 case Action.updatePlayerNameStep3:
-                    new GetPlayerName().GetName(this);
+                    getPlayerName.GetName(this);
                     break;
                         
                 default:
@@ -163,7 +163,8 @@ namespace EasyOR.Parser.View
         private void miseÀJourDesNomsDesJoueursToolStripMenuItem_Click(object sender, EventArgs e)
         {
             action = Action.updatePlayerNameStep3;
-            new GetPlayerName().GetName(this);
+            getPlayerName = new GetPlayerName();
+            getPlayerName.GetName(this);
         }
     }
 }
