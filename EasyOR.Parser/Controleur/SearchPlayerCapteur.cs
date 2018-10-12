@@ -52,11 +52,12 @@ namespace EasyOR.Parser.Controleur
             SystemNavigation = systemStart;
             GalaxyNavigation = galaxyStart;
             GalaxyMax = galaxyMax;
+            ProcessInit = false;
         }  
 
         public bool Initialisation(Main mainForm)
         {
-            if (new Navigation().InvokeForm(capteurInterstellaireURL, mainForm.webBrowserMain, "galaxi_envoi", new object[] { GalaxyNavigation, SystemNavigation }))
+            if (new Navigation().InvokeForm(capteurInterstellaireURL, mainForm.webBrowserMain, "galaxi_envoi",new object[] { GalaxyNavigation, SystemNavigation } ))
             {
                 ProcessInit = true;
             }
@@ -72,12 +73,11 @@ namespace EasyOR.Parser.Controleur
                 Initialisation(mainForm);
                 return;
             }
-
             if (GalaxyNavigation <= GalaxyMax)
             {
                 // on est actuellement au coordonnées suivantes
-                string galaxieActual = mainForm.webBrowserMain.Document.GetElementById("galaxi2").GetAttribute("value");
-                string systemActual = mainForm.webBrowserMain.Document.GetElementById("system2").GetAttribute("value");
+                string galaxieActual = mainForm.webBrowserMain.Document.GetElementById("galaxi").GetAttribute("value");
+                string systemActual = mainForm.webBrowserMain.Document.GetElementById("system").GetAttribute("value");
 
                 // on recupere l'ID parent le plus proche des planetes
                 HtmlElement pageSystemSolaire = mainForm.webBrowserMain.Document.GetElementById("galaxiform");

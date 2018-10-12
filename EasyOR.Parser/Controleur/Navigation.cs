@@ -10,19 +10,19 @@ namespace EasyOR.Parser.Controleur
 {
     public class Navigation
     {
-        public DateTime lastLoadTime;
+        public static DateTime lastLoadTime;
         public bool charge = false;
-        private const int limitTimeCharge = 300;
+        private const int limitTimeCharge = 500;
 
 
         public bool InvokeForm(string url, WebBrowser webbrowser, string nameMethod, object[] paramMethod)
         {
-            if (Init(webbrowser, url))
+            if (NavigationPage(webbrowser, url))
             {
                 limitnavigateTime();
                 HtmlDocument element = (HtmlDocument)webbrowser.Document;
                 element.InvokeScript(nameMethod, paramMethod);
-                return true;
+                 return true;
             }
             return false;
         }
@@ -41,11 +41,7 @@ namespace EasyOR.Parser.Controleur
         public bool NavigationPage(WebBrowser webbrowser, string url)
         {
             limitnavigateTime();
-            if (Init(webbrowser, url))
-            {
-                return true;
-            }
-            return false;
+            return Init(webbrowser, url);
         }
 
         public bool ReloadPage(WebBrowser webbrowser)
@@ -57,12 +53,12 @@ namespace EasyOR.Parser.Controleur
 
         private void limitnavigateTime()
         {
-            if ((DateTime.Now - lastLoadTime).TotalMilliseconds < limitTimeCharge)
+            if ((DateTime.Now - Navigation.lastLoadTime).TotalMilliseconds < limitTimeCharge)
             {
-                int timeNeed = Convert.ToInt32(limitTimeCharge - ((DateTime.Now - lastLoadTime).TotalMilliseconds));
+                int timeNeed = Convert.ToInt32(limitTimeCharge - ((DateTime.Now - Navigation.lastLoadTime).TotalMilliseconds));
                 Thread.Sleep(timeNeed);
             }
-            lastLoadTime = DateTime.Now;
+            Navigation.lastLoadTime = DateTime.Now;
         }
 
 

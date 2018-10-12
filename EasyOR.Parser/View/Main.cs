@@ -41,6 +41,12 @@ namespace EasyOR.Parser.View
 
         public void webBrowserMain_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
+            if ((sender as WebBrowser).ReadyState != WebBrowserReadyState.Complete)
+                return;
+
+            if (e.Url.AbsolutePath != (sender as WebBrowser).Url.AbsolutePath)
+                return;
+
             if ((deconnexion == webBrowserMain.Url.OriginalString) || (webBrowserMain.IsOffline))
             {
                 this.action = Action.UNKNOW;
@@ -112,12 +118,21 @@ namespace EasyOR.Parser.View
         }
         GetPlayerName getPlayerName;
         private void button1_Click(object sender, EventArgs e)
-        {    
-            getPlayerName = new GetPlayerName();
-            if (getPlayerName.ListPlayer.Count == 0)
-            {
-                getPlayerName.GetName(this);
-            }          
+        {
+            //this.webBrowserMain.Document.GetElementById("system").SetAttribute("value", "93");
+            //this.webBrowserMain.Document.GetElementById("galaxi").SetAttribute("value" ,"17");
+
+            //this.webBrowserMain.Document.GetElementById("system2").SetAttribute("value", "93");
+            //this.webBrowserMain.Document.GetElementById("galaxi2").SetAttribute("value", "17");
+            webBrowserMain.Document.InvokeScript("galaxi_envoi", new object[] { 1, 1 });
+            //this.webBrowserMain.Document.Get
+
+
+            //getPlayerName = new GetPlayerName();
+            //if (getPlayerName.ListPlayer.Count == 0)
+            //{
+            //    getPlayerName.GetName(this);
+            //}          
         }
 
 
@@ -155,14 +170,14 @@ namespace EasyOR.Parser.View
 
         private void GetAllPlayerToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            action = Action.updatePlayerNameStep1;
-            searchPlayer = new SearchPlayerCapteur(1, 1, 50);
+            action = Action.updatePlayerIdUnique;
+            searchPlayer = new SearchPlayerCapteur(17, 95, 17);
             searchPlayer.Search(this);            
         }
 
         private void miseÀJourDesNomsDesJoueursToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            action = Action.updatePlayerNameStep3;
+            action = Action.updatePlayerNameStep1;
             getPlayerName = new GetPlayerName();
             getPlayerName.GetName(this);
         }

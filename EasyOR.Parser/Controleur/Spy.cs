@@ -43,6 +43,7 @@ namespace EasyOR.Parser.Controleur
                     if (lastPlanete != ListPlanete[0])
                     {
                         new Navigation().InvokeForm(urlSpySonde, mainForm.webBrowserMain, "Raccourci", new object[] { ListPlanete[0].Galaxy, ListPlanete[0].System, ListPlanete[0].Position });
+                        lastPlanete = ListPlanete[0];
                     }
 
                     if (myDoc.Body.InnerText.Contains("Vous avez") || myDoc.Body.InnerText.Contains("vacance") || myDoc.Body.InnerText.Contains("Vous n'avez pas"))
