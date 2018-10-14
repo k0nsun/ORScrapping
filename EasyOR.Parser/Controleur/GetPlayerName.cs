@@ -1,6 +1,7 @@
 ﻿using EasyOR.DataAccess.SqlServer;
 using EasyOR.DTO;
 using EasyOR.Parser.View;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -38,7 +39,8 @@ namespace EasyOR.Parser.Controleur
 
         private void GetAllPlayerWithoutName()
         {
-            ListPlayer = new PlayerAction().GetPlayerWithoutName().ToList();
+           var ListPlayerDb = new PlayerAction().GetPlayerWithoutName();
+            ListPlayer = ListPlayerDb.Where(x => x.IsVacation == null && x.IsQuestPlayer == null).ToList();
         }
 
         public void GetName(Main mainForm)
@@ -52,7 +54,7 @@ namespace EasyOR.Parser.Controleur
                     GetNameBySpyinit();
                     GetNameBySpy(mainForm);
                     break;
-                case Action.updatePlayerNameStep3:
+                case Action.updatePlayerNameStep3:                    
                     GetNameByMessageInit();
                     GetNameByMessage(mainForm);
                     break;
@@ -125,7 +127,6 @@ namespace EasyOR.Parser.Controleur
                                         {
                                             if (nav.NavigationPage(mainForm.webBrowserMain, urlImpulseur))
                                                 element.InvokeMember("click");
-                                            // MainForm.action = "";
                                         }
                                     }
                                 }
@@ -182,9 +183,10 @@ namespace EasyOR.Parser.Controleur
                 planeteMapp = null;
                 lastPlayer = null;
 
-                // Get planet wihtout name and quest !
+                // Get planet wihtout name and quest
                 List<Planet> listPlanete = new List<Planet>();
-                foreach (Player player in ListPlayer)
+                IEnumerable<Player> listPlayerQuest = new PlayerAction().GetPlayerQuestWithoutName();
+                foreach (Player player in listPlayerQuest)
                 {
                     if (player.Planets.Count != 0)
                     {
@@ -205,7 +207,7 @@ namespace EasyOR.Parser.Controleur
         public void GetNameByMessageInit()
         {
             if (!InitMessage)
-            {
+            {               
                 spy = null;
                 InitSpy = false;
             }
@@ -233,6 +235,9 @@ namespace EasyOR.Parser.Controleur
 
                     for (int i = 1; i <= nbMessage; i++)
                     {
+
+                        listTable[2].Children[0].Children[i].Children[0].Children[0].SetAttribute("checked", "checked");
+
                         // Get player by planet
                         Planet planet = null;
 
@@ -240,24 +245,27 @@ namespace EasyOR.Parser.Controleur
                         var text = listTable[2].Children[0].Children[i].InnerText;
                         var namePlayer = Regex.Match(text, @"\(([^)]*)\)").Groups[1].Value;
                         var positionPlayer = Regex.Match(text, @"\[([^)]*)\]").Groups[1].Value;
-                        var positionSeparate = positionPlayer.Split(':');
-
-                        //update player
-
-
-                        listTable[2].Children[0].Children[i].Children[0].Children[0].SetAttribute("checked", "checked");
+                        var positionSeparateString = positionPlayer.Split(':');
+                        int[] positionSeparate = Array.ConvertAll(positionSeparateString, int.Parse);
+                        
+                        //update player                        
                         var messageId = listTable[2].Children[0].Children[i].Children[0].Children[0].GetAttribute("name");
                         messageIds.Add(messageId, "on");
+                        planet = new PlanetAction().GetPlanetByPosition(positionSeparate[0], positionSeparate[1], positionSeparate[2]);
+                        PlayerAction playerAction = new PlayerAction();
+                        var player = playerAction.GetPlayerById(planet.PlayerId);
+                        player.Name = namePlayer;
+                        playerAction.UpdatePlayer(player);
                     }
 
                     // Click "Voir les messages
                     var listElement = htmlDoc.GetElementsByTagName("input");
                     foreach (HtmlElement item in listElement)
                     {
-                        bool test = item.OuterHtml.Contains("value=Lire");
-                        if (test)
-                        {                           
-                            item.InvokeMember("click");
+                        bool boutonReadFound = item.OuterHtml.Contains("value=Lire");
+                        if (boutonReadFound)
+                        {
+                            nav.InvokeMember(item, "click");
                             messageRead = true;
                         }
                     }

@@ -45,8 +45,12 @@ namespace EasyOR.Parser.View
             this.administrateurToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rechercherLesJoueursToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.miseÀJourDesQuêtesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.playerBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.miseÀJourDesNomsDesJoueursToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.playerBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.label1 = new System.Windows.Forms.Label();
+            this.lblCurrentAction = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.lblTimeCurrentAction = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cDRBindingSource)).BeginInit();
             this.menuStrip1.SuspendLayout();
@@ -162,11 +166,51 @@ namespace EasyOR.Parser.View
             this.miseÀJourDesNomsDesJoueursToolStripMenuItem.Text = "Mise à jour des noms des joueurs";
             this.miseÀJourDesNomsDesJoueursToolStripMenuItem.Click += new System.EventHandler(this.miseÀJourDesNomsDesJoueursToolStripMenuItem_Click);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(12, 36);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(40, 13);
+            this.label1.TabIndex = 12;
+            this.label1.Text = "Action:";
+            // 
+            // lblCurrentAction
+            // 
+            this.lblCurrentAction.AutoSize = true;
+            this.lblCurrentAction.Location = new System.Drawing.Point(58, 36);
+            this.lblCurrentAction.Name = "lblCurrentAction";
+            this.lblCurrentAction.Size = new System.Drawing.Size(71, 13);
+            this.lblCurrentAction.TabIndex = 15;
+            this.lblCurrentAction.Text = "CurrentAction";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(15, 53);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(30, 13);
+            this.label4.TabIndex = 16;
+            this.label4.Text = "Time";
+            // 
+            // lblTimeCurrentAction
+            // 
+            this.lblTimeCurrentAction.AutoSize = true;
+            this.lblTimeCurrentAction.Location = new System.Drawing.Point(61, 53);
+            this.lblTimeCurrentAction.Name = "lblTimeCurrentAction";
+            this.lblTimeCurrentAction.Size = new System.Drawing.Size(60, 13);
+            this.lblTimeCurrentAction.TabIndex = 17;
+            this.lblTimeCurrentAction.Text = "TimeAction";
+            // 
             // Main
             // 
             this.AutoScroll = true;
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(1509, 862);
+            this.Controls.Add(this.lblTimeCurrentAction);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.lblCurrentAction);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.panelWebBrowser);
             this.Controls.Add(this.dataGridView1);
@@ -209,6 +253,10 @@ namespace EasyOR.Parser.View
         private ToolStripMenuItem chercherUnJoueurToolStripMenuItem;
         private ToolStripMenuItem miseÀJourDesQuêtesToolStripMenuItem;
         private ToolStripMenuItem miseÀJourDesNomsDesJoueursToolStripMenuItem;
+        private Label label1;
+        private Label lblCurrentAction;
+        private Label label4;
+        private Label lblTimeCurrentAction;
     }
 }
 

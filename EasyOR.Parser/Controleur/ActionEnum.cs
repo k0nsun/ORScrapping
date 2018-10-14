@@ -11,9 +11,11 @@ namespace EasyOR.Parser
         UNKNOW = 0,
         updateQuest,
         updatePlayerIdUnique,
+        updatePlayerNameStepInit,
         updatePlayerNameStep1,
         updatePlayerNameStep2,
         updatePlayerNameStep3,
+        updatePlayerNameStep4,
         Spy
     }
 }

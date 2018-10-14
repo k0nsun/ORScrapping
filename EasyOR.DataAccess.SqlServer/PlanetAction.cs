@@ -38,5 +38,14 @@ namespace EasyOR.DataAccess.SqlServer
                         @" WHERE LOWER(p.Name) = LOWER(@Name) AND pl.IsQuestPlayer = 1";
             return _db.Query<Planet>(sql, new { Name = Name }).AsEnumerable();
         }
+
+
+        public Planet GetPlanetByPosition(int galaxy, int system, int position)
+        {
+            string sql = @"SELECT p.* from PLANET p" +
+                        @" WHERE p.Galaxy = @Galaxy AND p.System = @System AND p.Position = @Position";
+            return _db.Query<Planet>(sql, new { Galaxy = galaxy, System = system, Position = position }).FirstOrDefault();
+        }
+
     }
 }

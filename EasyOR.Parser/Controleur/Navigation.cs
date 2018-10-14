@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -12,7 +9,7 @@ namespace EasyOR.Parser.Controleur
     {
         public static DateTime lastLoadTime;
         public bool charge = false;
-        private const int limitTimeCharge = 500;
+        public const int limitTimeCharge = 1000;
 
 
         public bool InvokeForm(string url, WebBrowser webbrowser, string nameMethod, object[] paramMethod)
@@ -20,11 +17,17 @@ namespace EasyOR.Parser.Controleur
             if (NavigationPage(webbrowser, url))
             {
                 limitnavigateTime();
-                HtmlDocument element = (HtmlDocument)webbrowser.Document;
+                HtmlDocument element = webbrowser.Document;
                 element.InvokeScript(nameMethod, paramMethod);
-                 return true;
+                return true;
             }
             return false;
+        }
+
+        public void InvokeMember(HtmlElement element, string memberClick)
+        {
+            limitnavigateTime();
+            element.InvokeMember(memberClick);
         }
 
         private bool Init(WebBrowser webbrowser, string url)
@@ -60,7 +63,5 @@ namespace EasyOR.Parser.Controleur
             }
             Navigation.lastLoadTime = DateTime.Now;
         }
-
-
     }
 }

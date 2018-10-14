@@ -27,6 +27,8 @@ namespace EasyOR.Parser.Controleur
         {       
             if (ListPlanete.Count == 0)
             {
+                // Wait 5 minutes
+                System.Threading.Thread.Sleep(5 * 60 * 1000);
                 mainForm.action = Action.updatePlayerNameStep3;
                 return;
             }
@@ -46,7 +48,7 @@ namespace EasyOR.Parser.Controleur
                         lastPlanete = ListPlanete[0];
                     }
 
-                    if (myDoc.Body.InnerText.Contains("Vous avez") || myDoc.Body.InnerText.Contains("vacance") || myDoc.Body.InnerText.Contains("Vous n'avez pas"))
+                    if (myDoc.Body.InnerText.Contains("Vous avez") || myDoc.Body.InnerText.Contains("vacance") || myDoc.Body.InnerText.Contains("Vous n'avez pas") || myDoc.Body.InnerText.Contains("aucune"))
                         ListPlanete.RemoveAt(0);
                 }
                 else

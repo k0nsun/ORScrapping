@@ -22,6 +22,7 @@ namespace EasyOR.Parser.View
         public SearchPlayerCapteur searchPlayer;
         //public UserControlSearchCDR searchCDRUserView;
         //public Spy spyPlayer;
+        public const string baseUrl = "http://origins-return.fr/";
         public const string deconnexion = "http://universphoenix.origins-return.fr/serveur.php";
         public const string apercu = "http://universphoenix.origins-return.fr/apercu.php";
 
@@ -30,23 +31,26 @@ namespace EasyOR.Parser.View
         {
             InitializeComponent();
             this.webBrowserMain.ScriptErrorsSuppressed = true;
-
+            lblCurrentAction.Text = action.ToString();
 #if !_DEV
             button1.Visible = false;
-            administrateurToolStripMenuItem.Visible = false;
+            administrateurToolStripMenuItem.Visible = true;
 #endif
             // on lance la navigation en version mobile (moi de données à charger)
-            webBrowserMain.Navigate(@"http://www.origins-return.fr/", null, null, "User-Agent:Mozilla/5.0 (iPhone; U; CPU iPhone OS 4_1 like Mac OS X; en-us) AppleWebKit/532.9 (KHTML, like Gecko) Version/4.0.5 Mobile/8B117 Safari/6531.22.7");
+            webBrowserMain.Navigate(baseUrl); //, null, null, "User-Agent:Mozilla/5.0 (iPhone; U; CPU iPhone OS 4_1 like Mac OS X; en-us) AppleWebKit/532.9 (KHTML, like Gecko) Version/4.0.5 Mobile/8B117 Safari/6531.22.7");
         }
 
         public void webBrowserMain_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
+           
             if ((sender as WebBrowser).ReadyState != WebBrowserReadyState.Complete)
                 return;
 
             if (e.Url.AbsolutePath != (sender as WebBrowser).Url.AbsolutePath)
                 return;
 
+
+            lblCurrentAction.Text = action.ToString();
             if ((deconnexion == webBrowserMain.Url.OriginalString) || (webBrowserMain.IsOffline))
             {
                 this.action = Action.UNKNOW;
@@ -68,12 +72,13 @@ namespace EasyOR.Parser.View
                 case Action.updatePlayerIdUnique:
                     searchPlayer.Search(this);
                     break;
+
                 case Action.updatePlayerNameStep1:
                 case Action.updatePlayerNameStep2:
                 case Action.updatePlayerNameStep3:
+                case Action.updatePlayerNameStep4:
                     getPlayerName.GetName(this);
                     break;
-                        
                 default:
                     break;
             }
@@ -116,23 +121,13 @@ namespace EasyOR.Parser.View
             //        break;
             //}
         }
-        GetPlayerName getPlayerName;
+        public GetPlayerName getPlayerName;
         private void button1_Click(object sender, EventArgs e)
         {
-            //this.webBrowserMain.Document.GetElementById("system").SetAttribute("value", "93");
-            //this.webBrowserMain.Document.GetElementById("galaxi").SetAttribute("value" ,"17");
+            this.action = Action.updatePlayerNameStep2;
+            this.getPlayerName = new GetPlayerName();
+            this.getPlayerName.GetName(this);
 
-            //this.webBrowserMain.Document.GetElementById("system2").SetAttribute("value", "93");
-            //this.webBrowserMain.Document.GetElementById("galaxi2").SetAttribute("value", "17");
-            webBrowserMain.Document.InvokeScript("galaxi_envoi", new object[] { 1, 1 });
-            //this.webBrowserMain.Document.Get
-
-
-            //getPlayerName = new GetPlayerName();
-            //if (getPlayerName.ListPlayer.Count == 0)
-            //{
-            //    getPlayerName.GetName(this);
-            //}          
         }
 
 
@@ -171,15 +166,17 @@ namespace EasyOR.Parser.View
         private void GetAllPlayerToolStripMenuItem_Click(object sender, EventArgs e)
         {
             action = Action.updatePlayerIdUnique;
-            searchPlayer = new SearchPlayerCapteur(17, 95, 17);
+            searchPlayer = new SearchPlayerCapteur(1, 1, 50);
             searchPlayer.Search(this);            
         }
 
         private void miseÀJourDesNomsDesJoueursToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            action = Action.updatePlayerNameStep1;
+            action = Action.updatePlayerNameStep3;
             getPlayerName = new GetPlayerName();
             getPlayerName.GetName(this);
+            searchPlayer = null;
         }
+
     }
 }

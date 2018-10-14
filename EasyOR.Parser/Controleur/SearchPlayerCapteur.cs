@@ -133,7 +133,7 @@ namespace EasyOR.Parser.Controleur
                                                 if (playerFound == null)
                                                 {
                                                     // Add player
-                                                    playerDB.AddPlayer(new EasyOR.DTO.Player() { Name = string.Empty, IsAFK = false, IsVacation = false, InternalIdOR = player.UniqueNumberContact });
+                                                    playerDB.AddPlayer(new EasyOR.DTO.Player() { Name = null, IsAFK = null, IsVacation = null, InternalIdOR = player.UniqueNumberContact });
 
                                                     playerFound = playerDB.GetUserByInternalIdOR(player.UniqueNumberContact);
                                                     // add planet
@@ -160,7 +160,9 @@ namespace EasyOR.Parser.Controleur
             }
             else
             {
-                mainForm.action = Action.UNKNOW;
+                mainForm.action = Action.updatePlayerNameStep1;
+                mainForm.getPlayerName = new GetPlayerName();
+                mainForm.getPlayerName.GetName(mainForm);
                 mainForm.searchPlayer = null;
             }
         }
